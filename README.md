@@ -26,7 +26,7 @@ Both spiders use proxy requests to avoid getting blocked by the websites. The pr
 
 You can run the spiders using the scrapy crawl command followed by the spider's name. For example, to run the book spider, you would use:
 ```bash
-pip install -r requirements.txt
 cd scrapy-demo-project
+pip install -r requirements.txt
 scrapy crawl carspider -o car.json
 scrapy crawl bookspider -o book.json
