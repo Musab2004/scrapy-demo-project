@@ -6,8 +6,7 @@ This project uses Scrapy, a powerful open-source web crawling framework written 
 
 The dependencies for this project are listed in the `requirements.txt` file. You can install them using pip:
 
-```bash
-pip install -r requirements.txt
+
 
 # Spiders
 
@@ -26,5 +25,8 @@ Both spiders use proxy requests to avoid getting blocked by the websites. The pr
 # Running the Spiders
 
 You can run the spiders using the scrapy crawl command followed by the spider's name. For example, to run the book spider, you would use:
+```bash
+pip install -r requirements.txt
+cd scrapy-demo-project
 scrapy crawl carspider -o car.json
 scrapy crawl bookspider -o book.json
