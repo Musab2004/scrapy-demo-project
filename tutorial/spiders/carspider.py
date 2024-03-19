@@ -18,33 +18,43 @@ class CarspiderSpider(scrapy.Spider):
         yield scrapy.Request(self.start_urls[0], self.parse)
 
     def parse(self, response):
-            cars=response.css('html body div#main-container section div.container div#featured-carousel.carousel.slide.pos-rel.lazy-slider.carousel-feature div.carousel-inner ul.list-unstyled.car-featured-used-home.car-slide-0.item.active.clearfix li.col-md-3')
-            for car in cars:
-                #  print(car)
-                 each_car=car.css('div.cards div.cards-content h3.nomargin.truncate a::attr(href)').get()
-                 each_car_page = response.urljoin(each_car)
-                 yield scrapy.Request(url=each_car_page, callback=self.inner_parse)
-            # next_page= response.css('html.no-js body#default.default div.container-fluid.page div.page_inner div.row div.col-sm-8.col-md-9 section div div ul.pager li.next a::attr(href)').get()     
-            # if next_page:
-            #     next_page = response.urljoin(next_page)
-            #     yield scrapy.Request(url=next_page, callback=self.parse)     
-            #      yield {
-            #     'product':new
-            #    }
+        """
+        Parse the response and extract information about each car.
+
+        Args:
+            response (scrapy.http.Response): The response object containing the HTML data.
+
+        Yields:
+            scrapy.Request: A request object for each car's page.
+
+        """
+        cars = response.css('html body div#main-container section div.container div#featured-carousel.carousel.slide.pos-rel.lazy-slider.carousel-feature div.carousel-inner ul.list-unstyled.car-featured-used-home.car-slide-0.item.active.clearfix li.col-md-3')
+        for car in cars:
+            each_car = car.css('div.cards div.cards-content h3.nomargin.truncate a::attr(href)').get()
+            each_car_page = response.urljoin(each_car)
+            yield scrapy.Request(url=each_car_page, callback=self.inner_parse)
+
  
     def inner_parse(self, response):
-        car_region=response.css('#scroll_car_detail > li:nth-child(2)::text').get()
-        car_price=response.css('#scrollToFixed > div.side-bar > div.well.price-well.pos-rel.mb20 > div.price-box > strong ::text').get()
-        car_name=response.css('#scroll_car_info > h1::text').get()
-        car=ProductItem()
-        car['name']=car_name
-        car['price']=car_price 
-        car['region']=car_region
-        yield car 
+        """
+        Parse the response to extract car details.
+
+        Args:
+            response (scrapy.http.Response): The response object containing the HTML data.
+
+        Yields:
+            ProductItem: A scrapy item representing a car with its name, price, and region.
+        """
+        car_region = response.css('#scroll_car_detail > li:nth-child(2)::text').get()
+        car_price = response.css('#scrollToFixed > div.side-bar > div.well.price-well.pos-rel.mb20 > div.price-box > strong ::text').get()
+        car_name = response.css('#scroll_car_info > h1::text').get()
+        car = ProductItem()
+        car['name'] = car_name
+        car['price'] = car_price 
+        car['region'] = car_region
+        yield car
+
 
     
-        # if each_product_page:
-        #         each_product_page = response.urljoin(each_product_page)
-        #         print(each_product_page)
-        #         yield scrapy.Request(url=each_product_page, callback=self.inner_parse)
+
 
