@@ -14,5 +14,5 @@ class TutorialPipeline:
 class CarPipeline:
     
     def process_item(self, item, spider):
-        item['price'] = item['price']+"lacs"
+        item['price'] = item['price']
         return item    

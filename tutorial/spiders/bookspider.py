@@ -18,7 +18,7 @@ class BookspiderSpider(scrapy.Spider):
         yield scrapy.Request(self.start_urls[0], self.parse)
 
     def parse(self, response):
-            books=response.css('#default > div > div > div > div > section > div:nth-child(2) > ol > li:nth-child(1)')
+            books=response.css('#default > div > div > div > div > section > div:nth-child(2) > ol > li')
             for book in books:
                 #  print(car)
                  each_book=book.css('article > h3 > a::attr(href)').get()
